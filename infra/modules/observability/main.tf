@@ -136,7 +136,7 @@ resource "aws_cloudwatch_dashboard" "platform" {
         height = 6
         properties = {
           title  = "Batch jobs: failed vs succeeded"
-          region = data.aws_region.current.name
+          region = data.aws_region.current.region
           stat   = "Sum"
           period = 3600
           metrics = [
@@ -153,7 +153,7 @@ resource "aws_cloudwatch_dashboard" "platform" {
         height = 6
         properties = {
           title  = "Stored data (bytes, daily)"
-          region = data.aws_region.current.name
+          region = data.aws_region.current.region
           stat   = "Average"
           period = 86400
           metrics = [
