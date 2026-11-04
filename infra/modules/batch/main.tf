@@ -110,7 +110,7 @@ locals {
 }
 
 resource "aws_batch_compute_environment" "this" {
-  for_each                 = local.compute_envs
+  for_each = local.compute_envs
   # A prefix lets create_before_destroy replace an environment without a name clash.
   compute_environment_name_prefix = "${var.name}-${each.key}-"
   type                            = "MANAGED"

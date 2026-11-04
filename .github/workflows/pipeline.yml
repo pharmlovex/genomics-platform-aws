@@ -24,7 +24,7 @@ jobs:
           java-version: "17"
       - uses: nf-core/setup-nextflow@v2
         with:
-          version: "24.10.4"
+          version: "26.10.5"
       - uses: nf-core/setup-nf-test@v1
       - name: Unit-test the concordance parser
         run: python3 -m py_compile bin/concordance.py
