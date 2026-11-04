@@ -19,6 +19,20 @@ resource "aws_kms_key" "data" {
   description             = "${var.name} genomic data encryption"
   enable_key_rotation     = true
   deletion_window_in_days = 7
+
+  # Written out explicitly (it matches the AWS default) so the code shows who controls the key:
+  # the account delegates to IAM, and only IAM policies that name this key grant use of it
+  # (e.g. the Batch instance role's kms:Decrypt / kms:GenerateDataKey).
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Sid       = "EnableIAMPolicies"
+      Effect    = "Allow"
+      Principal = { AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root" }
+      Action    = "kms:*"
+      Resource  = "*"
+    }]
+  })
 }
 
 resource "aws_kms_alias" "data" {
@@ -27,6 +41,12 @@ resource "aws_kms_alias" "data" {
 }
 
 resource "aws_s3_bucket" "this" {
+  # Checkov only links for_each sub-resources to the first key, so results/work are reported
+  # as missing settings that every bucket gets below via `for_each = aws_s3_bucket.this`.
+  #checkov:skip=CKV_AWS_145:False positive - KMS default encryption is applied to every bucket below
+  #checkov:skip=CKV2_AWS_6:False positive - public access block is applied to every bucket below
+  #checkov:skip=CKV2_AWS_61:False positive - results gets the tiered rule, work gets the scratch-expiry rule
+  #checkov:skip=CKV_AWS_21:results is versioned below; work is unversioned on purpose (scratch that expires)
   for_each      = local.buckets
   bucket        = "${var.name}-${each.key}-${data.aws_caller_identity.current.account_id}"
   force_destroy = var.force_destroy

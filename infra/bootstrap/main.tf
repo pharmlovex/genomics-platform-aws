@@ -35,7 +35,27 @@ locals {
 
 # ---------------------------------------------------------------- state bucket
 resource "aws_s3_bucket" "state" {
+  #checkov:skip=CKV_AWS_145:SSE-S3 is enough for single-user dev state: access is limited to the two CI roles and admins, public access is blocked and TLS is enforced. Move to a CMK if state ever holds real secrets.
   bucket = local.state_bucket
+}
+
+# Every apply writes a new state version. Keep recent history for rollback, not forever.
+resource "aws_s3_bucket_lifecycle_configuration" "state" {
+  bucket = aws_s3_bucket.state.id
+
+  rule {
+    id     = "expire-old-state-versions"
+    status = "Enabled"
+    filter {}
+    noncurrent_version_expiration {
+      noncurrent_days = 90
+    }
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+  }
+
+  depends_on = [aws_s3_bucket_versioning.state]
 }
 
 resource "aws_s3_bucket_versioning" "state" {

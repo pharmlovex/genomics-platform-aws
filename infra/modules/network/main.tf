@@ -4,6 +4,7 @@
 # Set enable_nat = true to move compute into private subnets. See docs/adr/0002.
 
 data "aws_availability_zones" "available" {
+  #checkov:skip=CKV_AWS_394:Only the first var.az_count zones are used (slice below), so a newly added AZ does not change the subnets
   state = "available"
 }
 
@@ -101,6 +102,8 @@ resource "aws_vpc_endpoint" "s3" {
 }
 
 resource "aws_security_group" "compute" {
+  #checkov:skip=CKV_AWS_382:No NAT by default (ADR 0002), so instances need direct egress for image pulls and AWS APIs. Inbound is closed.
+  #checkov:skip=CKV2_AWS_5:False positive - attached to the Batch compute environments via a module output, which Checkov cannot follow
   name        = "${var.name}-batch-compute"
   description = "Batch compute: no inbound access, outbound only"
   vpc_id      = aws_vpc.this.id

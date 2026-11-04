@@ -76,6 +76,7 @@ resource "aws_iam_instance_profile" "instance" {
 # mounts into each task container. Installed with Miniforge (conda-forge, no
 # Anaconda licence terms) at boot, so no custom AMI is needed.
 resource "aws_launch_template" "batch" {
+  #checkov:skip=CKV_AWS_341:Hop limit 2 is required so task containers can reach IMDSv2 for instance credentials
   name_prefix = "${var.name}-batch-"
   user_data   = base64encode(file("${path.module}/user-data.mime"))
 
