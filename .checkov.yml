@@ -1,0 +1,10 @@
+# Each skip is a deliberate, documented trade-off for a low-cost demo platform.
+skip-check:
+  - CKV_AWS_144   # S3 cross-region replication: not needed for a single-region demo
+  - CKV_AWS_18    # S3 access logging: CloudTrail data events would be the production answer (see ROADMAP stretch goals)
+  - CKV2_AWS_62   # S3 event notifications: not used
+  - CKV_AWS_338   # CloudWatch log retention >= 1 year: 14-30 days is enough for a demo and keeps cost down
+  - CKV_AWS_158   # CloudWatch log group KMS encryption: logs hold job metadata only
+  - CKV2_AWS_11   # VPC flow logs: listed as a stretch goal in docs/ROADMAP.md
+  - CKV2_AWS_12   # Default security group restriction: stretch goal
+  - CKV_AWS_130   # Public IPs on subnets: deliberate, see docs/adr/0002-no-nat-gateway.md

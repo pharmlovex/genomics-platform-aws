@@ -1,0 +1,22 @@
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan
+crash.log
+terraform.tfvars
+backend.hcl
+.terraform.lock.hcl.bak
+
+# Nextflow
+.nextflow*
+work/
+results/
+.nf-test/
+.nf-test.log
+pipelines/bam-qc/assets/samplesheet.aws.csv
+
+# Misc
+.DS_Store
+.env

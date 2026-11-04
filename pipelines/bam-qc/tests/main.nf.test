@@ -1,0 +1,41 @@
+nextflow_pipeline {
+
+    name "bam-qc end to end on the nf-core test BAM"
+    script "../main.nf"
+    profile "test"
+
+    test("writes a one-row concordance summary") {
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+        }
+
+        then {
+            assert workflow.success
+            def summary = path("$outputDir/summary/concordance.tsv")
+            assert summary.exists()
+            def lines = summary.readLines()
+            assert lines.size() == 2
+            assert lines[0].startsWith("sample\tflagstat_mapped")
+            assert lines[1].startsWith("test_paired\t")
+        }
+    }
+
+    test("fails clearly without a samplesheet") {
+
+        when {
+            params {
+                samplesheet = null
+                outdir      = "$outputDir"
+            }
+        }
+
+        then {
+            assert workflow.failed
+            assert workflow.stdout.any { it.contains("Missing --samplesheet") } ||
+                   workflow.stderr.any { it.contains("Missing --samplesheet") }
+        }
+    }
+}

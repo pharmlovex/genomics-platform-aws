@@ -1,0 +1,2 @@
+sample,bam,bai
+test_paired,s3://gpa-data-123456789012/test/test.paired_end.sorted.bam,s3://gpa-data-123456789012/test/test.paired_end.sorted.bam.bai

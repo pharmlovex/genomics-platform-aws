@@ -1,0 +1,17 @@
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="==GPA=="
+
+--==GPA==
+Content-Type: text/x-shellscript; charset="us-ascii"
+
+#!/bin/bash
+# Install a self-contained AWS CLI for Nextflow (aws.batch.cliPath = /opt/miniforge/bin/aws).
+set -euxo pipefail
+curl -fsSL -o /tmp/miniforge.sh \
+  https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+bash /tmp/miniforge.sh -b -p /opt/miniforge
+/opt/miniforge/bin/conda install -y -c conda-forge awscli
+/opt/miniforge/bin/aws --version
+rm -f /tmp/miniforge.sh
+
+--==GPA==--

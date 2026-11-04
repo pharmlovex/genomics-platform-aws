@@ -1,0 +1,32 @@
+name: pipeline
+
+on:
+  pull_request:
+    paths: ["pipelines/**", ".github/workflows/pipeline.yml"]
+  push:
+    branches: [main]
+    paths: ["pipelines/**", ".github/workflows/pipeline.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  nf-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pipelines/bam-qc
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "24.10.4"
+      - uses: nf-core/setup-nf-test@v1
+      - name: Unit-test the concordance parser
+        run: python3 -m py_compile bin/concordance.py
+      - name: Pipeline tests (Docker, nf-core test BAM)
+        run: nf-test test --verbose

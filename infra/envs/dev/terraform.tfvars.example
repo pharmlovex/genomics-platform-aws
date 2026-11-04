@@ -1,0 +1,6 @@
+# Copy to terraform.tfvars (git-ignored). In CI these come from GitHub variables.
+github_repo        = "your-github-user/genomics-platform-aws"
+alert_email        = "you@example.com"
+enable_nat         = false
+max_vcpus          = 32
+monthly_budget_usd = 20
