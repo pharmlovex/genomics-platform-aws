@@ -5,11 +5,11 @@
 # Everything else in this repo is deployed by CI using these roles.
 
 terraform {
-  required_version = ">= 1.10.0"
+  required_version = ">= 1.15.8"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.80"
+      version = "~> 6.72.0"
     }
   }
 }
