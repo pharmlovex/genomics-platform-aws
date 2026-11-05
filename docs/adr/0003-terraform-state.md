@@ -11,7 +11,7 @@ runs, and recoverable after a bad apply.
   public access blocked and TLS-only access.
 - Locking uses Terraform's S3-native lock file (`use_lockfile = true`, Terraform >= 1.10)
   instead of a DynamoDB table, which is now the recommended approach.
-- The bootstrap stack keeps local state, because it creates the bucket everything else uses.
+- The bootstrap stack keeps local state initially, because it creates the bucket everything else uses.  It then moved to the created bucket.   
   It changes rarely and is applied by a human with admin rights.
 
 ## Consequences
