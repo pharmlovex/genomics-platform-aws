@@ -4,19 +4,18 @@ Each milestone ends with something working and measurable. Tick boxes as you go 
 the real numbers.
 
 ## 1. Local pipeline
-- [ ] `make run-local` passes; open `results-local/pipeline_info/report.html`
-- [ ] `make test` (nf-test) passes
-- [ ] Push to GitHub; the `pipeline` workflow is green
+- [x] `make run-local` passes; open `results-local/pipeline_info/report.html`
+- [x] `make test` (nf-test) passes
+- [x] Push to GitHub; the `pipeline` workflow is green
 
 The pipeline is tested in CI against public nf-core data before it ever reaches AWS.
 
 ## 2. Bootstrap and secure CI
-- [ ] `make bootstrap` in a fresh AWS account. Turn on MFA for root and use an admin IAM Identity Center user, not root.
-- [ ] GitHub secrets and variables set; `dev` environment with a required reviewer
-- [ ] Open a PR that changes a tag. The plan appears as a PR comment.
+- [x] `make bootstrap` in a fresh AWS account. Turn on MFA for root and use an admin IAM Identity Center user, not root.
+- [x] GitHub secrets and variables set; `dev` environment with a required reviewer
+- [x] Open a PR that changes a tag. The plan appears as a PR comment.
 
-There are no AWS keys in GitHub. CI uses OIDC, pull requests can only plan, and only the
-protected main-branch environment can apply.
+There are no AWS keys in GitHub. CI uses OIDC, pull requests can only plan, and use dispatch workflow to apply 
 
 ## 3. Deploy the platform
 - [ ] Merge to main; the `apply` job deploys the dev stack
