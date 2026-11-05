@@ -162,7 +162,7 @@ data "aws_iam_policy_document" "state_access" {
   statement {
     # PutObject/DeleteObject are needed for the S3-native lock file even during plan.
     actions   = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
-    resources = ["${aws_s3_bucket.state.arn}/*"]
+    resources = ["${aws_s3_bucket.state.arn}/envs/*"]
   }
 }
 
