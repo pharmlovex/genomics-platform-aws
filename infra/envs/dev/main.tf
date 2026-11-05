@@ -23,6 +23,7 @@ provider "aws" {
       Environment = "dev"
       ManagedBy   = "Terraform"
       Repository  = var.github_repo
+      Owner       = "Pharmlovex"
     }
   }
 }
