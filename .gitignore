@@ -13,6 +13,7 @@ backend.hcl
 .nextflow*
 work/
 results/
+results-local/
 .nf-test/
 .nf-test.log
 pipelines/bam-qc/assets/samplesheet.aws.csv
