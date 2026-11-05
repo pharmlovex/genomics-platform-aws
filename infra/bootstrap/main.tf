@@ -126,8 +126,8 @@ data "aws_iam_policy_document" "trust_pr" {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
       values = [
-        "repo:${var.github_repo}:pull_request",
-        "repo:${var.github_repo}:ref:refs/heads/main",
+        "${var.github_sub_prefix}:pull_request",
+        "${var.github_sub_prefix}:ref:refs/heads/main",
       ]
     }
   }
@@ -149,7 +149,7 @@ data "aws_iam_policy_document" "trust_main" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.github_repo}:environment:dev"]
+      values   = ["${var.github_sub_prefix}:environment:dev"]
     }
   }
 }

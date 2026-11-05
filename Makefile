@@ -12,7 +12,7 @@ help:            ## Show this help
 
 bootstrap:       ## One-off: state bucket + GitHub OIDC roles (needs admin creds and GITHUB_REPO=owner/name)
 	terraform -chdir=infra/bootstrap init
-	terraform -chdir=infra/bootstrap apply -var="github_repo=$(GITHUB_REPO)"
+	terraform -chdir=infra/bootstrap apply -var="github_sub_prefix=$$(gh api repos/$(GITHUB_REPO)/actions/oidc/customization/sub --jq .sub_claim_prefix)"
 
 init:            ## Init the dev stack against the remote state (needs infra/envs/dev/backend.hcl)
 	$(TF) init -backend-config=backend.hcl

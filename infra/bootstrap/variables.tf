@@ -10,12 +10,12 @@ variable "region" {
   default     = "eu-west-2"
 }
 
-variable "github_repo" {
-  description = "GitHub repository allowed to assume the CI roles, as owner/name."
+variable "github_sub_prefix" {
+  description = "OIDC sub prefix GitHub issues for this repo. Immutable form pins owner and repo by ID.Get it with: gh api repos/OWNER/REPO/actions/oidc/customization/sub --jq .sub_claim_prefix"
   type        = string
 
   validation {
-    condition     = can(regex("^[A-Za-z0-9-]+/[A-Za-z0-9._-]+$", var.github_repo))
-    error_message = "github_repo must be owner/name, e.g. octo-org/my-repo (no 'github_repo=' prefix)."
+    condition     = can(regex("^repo:[A-Za-z0-9-]+(@[0-9]+)?/[A-Za-z0-9._-]+(@[0-9]+)?$", var.github_sub_prefix))
+    error_message = "github_sub_prefix must look like repo:owner@123/name@456 (or repo:owner/name)."
   }
 }
