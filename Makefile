@@ -50,7 +50,14 @@ run-aws:         ## Run the pipeline on AWS Batch (Spot queue)
 	  --work_bucket $(call OUT,work_bucket) \
 		--alert_topic $(call OUT,alerts_topic_arn) \
 	  --outdir s3://$(call OUT,results_bucket)/bam-qc/$$(date +%Y%m%d-%H%M%S)
-		
+
+run-aws-scale:         ## Run the pipeline on AWS Batch (Spot queue)
+	cd $(PIPE) && nextflow run main.nf -profile awsbatch \
+	  --samplesheet assets/samplesheet.scale.csv \
+	  --batch_queue $(call OUT,spot_queue) \
+	  --work_bucket $(call OUT,work_bucket) \
+		--alert_topic $(call OUT,alerts_topic_arn) \
+	  --outdir s3://$(call OUT,results_bucket)/bam-qc/$$(date +%Y%m%d-%H%M%S)
 
 costs:           ## Month-to-date cost by service (needs Cost Explorer enabled)
 	aws ce get-cost-and-usage --time-period Start=$$(date +%Y-%m-01),End=$$(date -d tomorrow +%Y-%m-%d) \
