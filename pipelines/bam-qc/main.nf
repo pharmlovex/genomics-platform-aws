@@ -103,4 +103,21 @@ workflow {
 
     onComplete:
     log.info "bam-qc finished: ${workflow.success ? 'OK' : 'FAILED'} in ${workflow.duration}. Results: ${params.outdir}"
+
+    if (!workflow.success && params.alert_topic) {
+          def message = """\
+              Run:      ${workflow.runName}
+              Error:    ${workflow.errorMessage ?: 'see .nextflow.log'}
+              Work dir: ${workflow.workDir}
+              Duration: ${workflow.duration}
+              """.stripIndent()
+          def proc = ['aws', 'sns', 'publish', '--region', params.aws_region,
+                      '--topic-arn', params.alert_topic,
+                      '--subject', "bam-qc FAILED: ${workflow.runName}".toString(),
+                      '--message', message].execute()
+          proc.waitForOrKill(30_000)
+          if (proc.exitValue() != 0) {
+              log.warn "Could not send failure alert: ${proc.err.text}"
+          }
+      }
 }

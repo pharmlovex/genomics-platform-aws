@@ -25,3 +25,7 @@ output "ondemand_queue" {
 output "dashboard" {
   value = "https://${var.region}.console.aws.amazon.com/cloudwatch/home?region=${var.region}#dashboards/dashboard/${module.observability.dashboard_name}"
 }
+
+output "alerts_topic_arn" {
+   value = module.observability.alerts_topic_arn
+ }
