@@ -18,13 +18,13 @@ The pipeline is tested in CI against public nf-core data before it ever reaches 
 There are no AWS keys in GitHub. CI uses OIDC, pull requests can only plan, and use dispatch workflow to apply 
 
 ## 3. Deploy the platform
-- [ ] Merge to main; the `apply` job deploys the dev stack
-- [ ] Confirm the SNS email subscription
-- [ ] `checkov` and `tflint` pass, with every skip justified
-- [ ] Open the CloudWatch dashboard (link from `terraform output dashboard`)
+- [x] Merge to main; the `apply` job deploys the dev stack
+- [x] Confirm the SNS email subscription
+- [x] `checkov` and `tflint` pass, with every skip justified
+- [x] Open the CloudWatch dashboard (link from `terraform output dashboard`)
 
 ## 4. Run genomics on Batch
-- [ ] `make upload-test-data && make run-aws` succeeds
+- [x] `make upload-test-data && make run-aws` succeeds
 - [ ] Record: wall time, number of tasks, instance types Batch chose, cost (Cost Explorer next day)
 - [ ] Break something on purpose, for example a bad BAM path, and confirm the failure email arrives
 - [ ] Scale test: generate 20–50 samples (copies or downsampled BAMs) and run them. Record throughput and cost per sample.
